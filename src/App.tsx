@@ -1,6 +1,9 @@
 import type { Livro } from './types/entidades';
 import { CartaoLivro } from './componentes/CartaoLivro';
-
+import { useState } from 'react';
+import { FormularioLivroProps } from './componentes/FormularioLivro';
+import { ListaLivros } from './componentes/ListaLivros';
+import './App.css';
 
 const Livro1 : Livro = {
   id: 1,
@@ -19,10 +22,19 @@ const Livro2: Livro = {
 
 
 export default function App() {
+  const [novosLivros, setNovosLivros] = useState<Livro[]>([]);
+
   return (
     <main>
       <CartaoLivro livro={Livro1} />
       <CartaoLivro livro={Livro2} minimoExemplares={3} />
+
+      <ListaLivros />
+
+      <FormularioLivroProps aoAdicionar={(livro) => setNovosLivros([...novosLivros, livro])} />
+      {novosLivros.map((livro) => (
+        <CartaoLivro key={livro.id} livro={livro} />
+      ))}
     </main>
   );
 }
